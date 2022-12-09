@@ -6,27 +6,27 @@ const height = trees.length;
 
 let totalVisible = 0;
 
-for(let x = 0; x < width; x += 1) {
-  for(let y = 0; y < height; y += 1) {
+for(let y = 0; y < width; y += 1) {
+  for(let x = 0; x < height; x += 1) {
     if (
-      x === 0
-      || y === 0
-      || x === height - 1
-      || y === width - 1
+      y === 0
+      || x === 0
+      || y === height - 1
+      || x === width - 1
     ) {
       totalVisible += 1;
       continue;
     }
 
-    const topIndices = Array.from(Array(x).keys(), v => v);
-    const leftIndices = Array.from(Array(y).keys(), v => v);
-    const rightIndices = Array.from(Array(width - y - 1).keys(), v => v + y + 1);
-    const bottomIndices = Array.from(Array(height - x - 1).keys(), v => v + x + 1);
+    const topIndices = Array.from(Array(y).keys(), v => v);
+    const leftIndices = Array.from(Array(x).keys(), v => v);
+    const rightIndices = Array.from(Array(width - x - 1).keys(), v => v + x + 1);
+    const bottomIndices = Array.from(Array(height - y - 1).keys(), v => v + y + 1);
 
-    const isHiddenFromTop = topIndices.some((i) => trees[i][y] >= trees[x][y]);
-    const isHiddenFromLeft = leftIndices.some((i) => trees[x][i] >= trees[x][y]);
-    const isHiddenFromRight = rightIndices.some((i) => trees[x][i] >= trees[x][y]);
-    const isHiddenFromBottom = bottomIndices.some((i) => trees[i][y] >= trees[x][y]);
+    const isHiddenFromTop = topIndices.some((i) => trees[i][x] >= trees[y][x]);
+    const isHiddenFromLeft = leftIndices.some((i) => trees[y][i] >= trees[y][x]);
+    const isHiddenFromRight = rightIndices.some((i) => trees[y][i] >= trees[y][x]);
+    const isHiddenFromBottom = bottomIndices.some((i) => trees[i][x] >= trees[y][x]);
 
 
     if (
@@ -38,7 +38,7 @@ for(let x = 0; x < width; x += 1) {
       continue;
     }
 
-      totalVisible += 1;
+    totalVisible += 1;
   }
 }
 

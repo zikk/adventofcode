@@ -6,63 +6,44 @@ const height = trees.length;
 
 let highestScenicScore = 0;
 
-for(let x = 0; x < width; x += 1) {
-  for(let y = 0; y < height; y += 1) {
+for(let y = 0; y < width; y += 1) {
+  for(let x = 0; x < height; x += 1) {
     if (
-      x === 0
-      || y === 0
-      || x === height - 1
-      || y === width - 1
+      y === 0
+      || x === 0
+      || y === height - 1
+      || x === width - 1
     ) {
       continue;
     }
-    const topIndices = Array.from(Array(x).keys(), v => v).reverse();
-    const leftIndices = Array.from(Array(y).keys(), v => v).reverse();
-    const rightIndices = Array.from(Array(width - y - 1).keys(), v => v + y + 1);
-    const bottomIndices = Array.from(Array(height - x - 1).keys(), v => v + x + 1);
+    const topIndices = Array.from(Array(y).keys(), v => v).reverse();
+    const leftIndices = Array.from(Array(x).keys(), v => v).reverse();
+    const rightIndices = Array.from(Array(width - x - 1).keys(), v => v + x + 1);
+    const bottomIndices = Array.from(Array(height - y - 1).keys(), v => v + y + 1);
 
     let seenOnTop = 0;
-    topIndices.some((i) => {
-      if (trees[i][y] >= trees[x][y]) {
-        seenOnTop += 1;
-        return true;
-      }
-
-      seenOnTop += 1;
-      return false;
-    });
-
     let seeOnLeft = 0;
-    leftIndices.some((i) => {
-      if (trees[x][i] >= trees[x][y]) {
-        seeOnLeft += 1;
-        return true;
-      }
-
-      seeOnLeft += 1;
-      return false;
-    });
-
     let seenOnRight = 0;
-    rightIndices.some((i) => {
-      if (trees[x][i] >= trees[x][y]) {
-        seenOnRight += 1;
-        return true;
-      }
+    let seenOnBotton = 0;
 
-      seenOnRight += 1;
-      return false;
+    topIndices.some((i) => {
+      seenOnTop += 1;
+      return trees[i][x] >= trees[y][x];
     });
 
-    let seenOnBotton = 0;
-    bottomIndices.some((i) => {
-      if (trees[i][y] >= trees[x][y]) {
-        seenOnBotton += 1;
-        return true;
-      }
+    leftIndices.some((i) => {
+      seeOnLeft += 1;
+      return trees[y][i] >= trees[y][x];
+    });
 
+    rightIndices.some((i) => {
+      seenOnRight += 1;
+      return trees[y][i] >= trees[y][x];
+    });
+
+    bottomIndices.some((i) => {
       seenOnBotton += 1;
-      return false;
+      return trees[i][x] >= trees[y][x];
     });
 
     const scenicScore = seenOnTop * seeOnLeft * seenOnRight * seenOnBotton;
@@ -70,4 +51,4 @@ for(let x = 0; x < width; x += 1) {
   }
 }
 
-console.log("🚀 ~ file: a.ts:73 ~ highestScenicScore", highestScenicScore)
+console.log("🚀 ~ file: a.ts:74 ~ highestScenicScore", highestScenicScore)
