@@ -17,7 +17,7 @@ for(let i = 20; i < increments.length; i += 40) {
   let total = 1;
 
   for(let j = 0; j < i - 1; j += 1) {
-    total += increments[j] || 0;
+    total += increments[j];
   }
 
   totalsSum += total * i;
