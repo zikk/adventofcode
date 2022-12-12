@@ -1,4 +1,4 @@
-const input = await Deno.readTextFile('./input.prod');
+const input = await Deno.readTextFile('./input.test');
 
 type Monkey = {
   items: number[];
@@ -30,14 +30,19 @@ for (let index = 0; index < 20; index += 1) {
     const removedItems: number[] = [];
     monkey.items.forEach((item) => {
       const old = item;
-      let newNum = old;
-      const operation = monkey.operation.replace('new', 'newNum');
+      let worryLevel = old;
+      // console.log("🚀 ~ file: b.ts:34 ~ monkey.items.forEach ~ newNum", worryLevel)
+      const operation = monkey.operation.replace('new', 'worryLevel');
+      // console.log("🚀 ~ file: b.ts:36 ~ monkey.items.forEach ~ operation", operation)
       eval(operation);
-      const newWorryLevel = Math.floor(newNum / 3);
-      if (newWorryLevel % monkey.testNumber === 0) {
-        monkeys[monkey.targets[0]].items.push(newWorryLevel);
+      // console.log("🚀 ~ file: b.ts:34 ~ monkey.items.forEach ~ newNum", worryLevel)
+      // worryLevel = worryLevel > 1_000_000 ? Number.parseInt(String(worryLevel).slice(-6), 10) : worryLevel;
+      // worryLevel = worryLevel > 1_000_000 ? Number.parseInt(String(worryLevel).slice(-6), 10) : worryLevel;
+      worryLevel %= monkey.testNumber;
+      if (worryLevel === 0) {
+        monkeys[monkey.targets[0]].items.push(worryLevel);
       } else {
-        monkeys[monkey.targets[1]].items.push(newWorryLevel);
+        monkeys[monkey.targets[1]].items.push(worryLevel);
       }
 
       removedItems.push(item);
@@ -48,5 +53,6 @@ for (let index = 0; index < 20; index += 1) {
   });
 }
 
+console.log("🚀 ~ file: b.ts:48 ~ monkeys.forEach ~ monkeys", monkeys)
 const topInspections = Object.values(monkeys).map((monkey) => monkey.inspections).sort((a, b) => b - a).slice(0, 2);
 console.log(topInspections.reduce((total, num) => total * num, 1));
