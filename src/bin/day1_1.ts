@@ -1,4 +1,4 @@
-const input = await Deno.readTextFile('./input.prod');
+const input = await Deno.readTextFile('./day1.prod');
 
 const calories: number[] = input
   .split('\n\n').reduce<number[]>((acc, line) => {
