@@ -13,6 +13,10 @@ const hill = input.split('\n').map((line) => line.split('').map((char) => {
   if (char === 'E') return 25;
   const index = heights.indexOf(char);
   return index;
-})).map((row, y) => row.map((height, x) => new Node([x, y])))
+})).map((row, y) => row.map((height, x) => {
+  const nextPaths: Node[] = [];
+
+  return new Node([x, y], nextPaths);
+}))
 
 console.log("🚀 ~ file: a.ts:18 ~ hill ~ hill", hill)
