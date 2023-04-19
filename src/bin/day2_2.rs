@@ -9,7 +9,7 @@ fn main() -> Result<()> {
 
     let mut player_score = 0;
 
-    read_to_string("./src/bin/day2.prod")?
+    read_to_string("./inputs/day2.prod")?
         .lines()
         .into_iter()
         .for_each(|line| {

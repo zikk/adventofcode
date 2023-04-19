@@ -8,7 +8,7 @@ fn main() -> Result<()> {
     let wins = vec![['X', 'C'], ['Y', 'A'], ['Z', 'B']];
     let loses = vec![['X', 'B'], ['Y', 'C'], ['Z', 'A']];
 
-    let file = read_to_string("./src/bin/day2.prod")?;
+    let file = read_to_string("./inputs/day2.prod")?;
 
     let x: Vec<_> = file
         .lines()
