@@ -3,11 +3,13 @@ use std::fs::read_to_string;
 use anyhow::Result;
 
 fn main() -> Result<()> {
-    let total: Vec<usize> = read_to_string("./src/bin/day1.prod")?
+    let mut total: Vec<usize> = read_to_string("./src/bin/day1.prod")?
         .split("\n\n")
         .map(|x| x.lines().flat_map(str::parse::<usize>).sum())
         .collect();
 
-    println!("Result: {:?}", total.iter().max().unwrap());
+    total.sort_by(|a, b| b.cmp(a));
+
+    println!("Result: {:?}", total.into_iter().take(3).sum::<usize>());
     return Ok(());
 }
