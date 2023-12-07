@@ -1,11 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"log"
 	"os"
 	"strconv"
-	"strings"
 )
 
 func main() {
@@ -16,25 +16,27 @@ func main() {
 	var inputFileName string
 
 	flag.StringVar(&envFlag, "e", "prod", "Input environment to use [test, prod]")
+	flag.StringVar(&envFlag, "environment", "prod", "Input environment to use [test, prod]")
 	flag.Parse()
 
 	if envFlag == "prod" {
 		inputFileName = "./inputs/day1.prod"
 	} else {
-		inputFileName = "./inputs/day1.test"
+		inputFileName = "./inputs/day1_1.test"
 	}
 
-	data, err := os.ReadFile(inputFileName)
-
+	file, err := os.Open(inputFileName)
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer file.Close()
 
-	dataString := string(data)
+	scanner := bufio.NewScanner(file)
 
 	var total int
 
-	for _, line := range strings.Split(dataString, "\n") {
+	for scanner.Scan() {
+		line := scanner.Text()
 		var firstDigit int
 		var lastDigit int
 
