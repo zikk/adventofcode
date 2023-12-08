@@ -71,7 +71,6 @@ func main() {
 			}
 
 			total = total + lineTotal
-
 		}
 	}
 

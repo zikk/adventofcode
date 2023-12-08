@@ -40,12 +40,12 @@ func main() {
 	}
 	defer file.Close()
 
-	scanner := bufio.NewScanner(file)
+	fileScanner := bufio.NewScanner(file)
 
 	var total int
 
-	for scanner.Scan() {
-		line := scanner.Text()
+	for fileScanner.Scan() {
+		line := fileScanner.Text()
 		firstDigit := DigitWithPosition{-1, -1}
 		lastDigit := DigitWithPosition{-1, -1}
 
@@ -61,21 +61,34 @@ func main() {
 			}
 		}
 
+		if lastDigit.digit == -1 {
+			lastDigit = DigitWithPosition{firstDigit.pos, firstDigit.digit}
+		}
+
 		for index, number := range numbers {
+			numberValue := index + 1
 			firstOccurence := strings.Index(line, number)
 			lastOccurence := strings.LastIndex(line, number)
 
-			if firstOccurence > -1 && (firstDigit.pos == -1 || firstOccurence < firstDigit.pos) {
-				firstDigit = DigitWithPosition{firstOccurence, index + 1}
+			if firstOccurence > -1 {
+				if firstDigit.pos == -1 || firstOccurence < firstDigit.pos {
+					firstDigit = DigitWithPosition{firstOccurence, numberValue}
+				}
+
+				if lastDigit.pos == -1 || firstOccurence > lastDigit.pos {
+					lastDigit = DigitWithPosition{firstOccurence, numberValue}
+				}
 			}
 
-			if lastOccurence > -1 && (lastDigit.pos == -1 || lastOccurence > lastDigit.pos) {
-				lastDigit = DigitWithPosition{lastOccurence, index + 1}
-			}
-		}
+			if lastOccurence > -1 {
+				if firstDigit.pos == -1 || lastOccurence < firstDigit.pos {
+					firstDigit = DigitWithPosition{lastOccurence, numberValue}
+				}
 
-		if lastDigit.digit == -1 {
-			lastDigit = DigitWithPosition{firstDigit.pos, firstDigit.digit}
+				if lastDigit.pos == -1 || lastOccurence > lastDigit.pos {
+					lastDigit = DigitWithPosition{lastOccurence, numberValue}
+				}
+			}
 		}
 
 		if firstDigit.digit != -1 {
@@ -87,7 +100,6 @@ func main() {
 
 			total = total + lineTotal
 		}
-
 	}
 
 	fmt.Println(total)
