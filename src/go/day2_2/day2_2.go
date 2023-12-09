@@ -22,38 +22,44 @@ type Game struct {
 	hands []GameHand
 }
 
-func (g Game) HasRedLessThan(n int) bool {
+func (g Game) MaxRed() int {
+	max := 0
+
 	for _, hand := range g.hands {
-		if hand.red > n {
-			return false
+		if hand.red > max {
+			max = hand.red
 		}
 	}
 
-	return true
+	return max
 }
 
-func (g Game) HasGreenLessThan(n int) bool {
+func (g Game) MaxGreen() int {
+	max := 0
+
 	for _, hand := range g.hands {
-		if hand.green > n {
-			return false
+		if hand.green > max {
+			max = hand.green
 		}
 	}
 
-	return true
+	return max
 }
 
-func (g Game) HasBlueLessThan(n int) bool {
+func (g Game) MaxBlue() int {
+	max := 0
+
 	for _, hand := range g.hands {
-		if hand.blue > n {
-			return false
+		if hand.blue > max {
+			max = hand.blue
 		}
 	}
 
-	return true
+	return max
 }
 
 func main() {
-	log.SetPrefix("Day 2 part 1")
+	log.SetPrefix("Day 2 part 2")
 	log.SetFlags(0)
 
 	var envFlag string
@@ -110,10 +116,7 @@ func main() {
 		}
 
 		game := Game{id: gameId, hands: hands}
-
-		if game.HasRedLessThan(12) && game.HasGreenLessThan(13) && game.HasBlueLessThan(14) {
-			total += game.id
-		}
+		total += game.MaxRed() * game.MaxGreen() * game.MaxBlue()
 	}
 
 	fmt.Println(total)
