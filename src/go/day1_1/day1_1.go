@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -74,5 +75,5 @@ func main() {
 		}
 	}
 
-	println(total)
+	fmt.Println(total)
 }

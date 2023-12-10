@@ -19,6 +19,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "execa": "^8.0.1",
     "minimist": "^1.2.8"
   }
 }
