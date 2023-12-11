@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	log.SetPrefix("Day 4 part 1")
+	log.SetPrefix("Day 4 part 2")
 	log.SetFlags(0)
 
 	var envFlag string
@@ -36,10 +36,18 @@ func main() {
 	fileScanner := bufio.NewScanner(file)
 	total := 0
 
+	multipliers := map[int]int{0: 1}
+	gameIndex := -1
+
 	for fileScanner.Scan() {
+		gameIndex += 1
 		winnings := 0
 		line := fileScanner.Text()
 		numbers := strings.Split(strings.Split(line, ":")[1], "|")
+
+		if multipliers[gameIndex] == 0 {
+			multipliers[gameIndex] = 1
+		}
 
 		for _, n := range strings.Split(strings.ReplaceAll(strings.TrimSpace(numbers[1]), "  ", " "), " ") {
 			var hasWinningNumber bool
@@ -51,15 +59,23 @@ func main() {
 			}
 
 			if hasWinningNumber {
-				if winnings == 0 {
-					winnings = 1
-				} else {
-					winnings *= 2
-				}
+				winnings += 1
 			}
 		}
 
-		total += winnings
+		if winnings > 0 {
+			for i := 1; i <= winnings; i++ {
+				if multipliers[gameIndex+i] == 0 {
+					multipliers[gameIndex+i] = 1 + multipliers[gameIndex]
+				} else {
+					multipliers[gameIndex+i] += multipliers[gameIndex]
+				}
+			}
+		}
+	}
+
+	for _, v := range multipliers {
+		total += v
 	}
 
 	fmt.Println(total)
