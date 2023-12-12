@@ -53,10 +53,7 @@ func main() {
 			var hasWinningNumber bool
 			re := regexp.MustCompile("\\b" + string(n) + "\\b")
 			f := re.FindStringIndex(strings.TrimSpace(numbers[0]))
-
-			if len(f) > 0 {
-				hasWinningNumber = true
-			}
+			hasWinningNumber = len(f) > 0
 
 			if hasWinningNumber {
 				winnings += 1

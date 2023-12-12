@@ -13,6 +13,12 @@ const ALLOWED_LANGS = [
 
 const ALLOWED_ENVS = ["test", "prod"];
 
+const FILE_EXTENSIONS: Record<string, string> = {
+  "ts": "ts",
+  "go": "go",
+  "rust": "rs",
+}
+
 const lang = argv.lang || argv.l || "ts";
 const day = argv.day || argv.d;
 const part = argv.part || argv.p;
@@ -35,8 +41,9 @@ if (!day || !part) {
 
 const filePath = path.join(
   import.meta.dir,
-  `./src/${lang}/${lang === 'go' ? `day${day}_${part}/` : ''}day${day}_${part}.${lang === 'rust' ? '' : lang}`
+  `./src/${lang === "rust" ? "bin" : lang}/${lang === 'go' ? `day${day}_${part}/` : ''}day${day}_${part}.${FILE_EXTENSIONS[lang]}`
 );
+
 const file = Bun.file(filePath);
 
 async function runFile() {
@@ -46,21 +53,13 @@ async function runFile() {
       break;
     case 'go': {
         const { stdout, stderr } = await $`go run ${filePath} -e ${env}`;
-        if (stderr) {
-          console.error(c.red(stderr));
-          process.exit(1);
-        }
-
+        console.error(c.red(stderr));
         console.log(stdout);
         break;
       }
     case 'rust':
-      const { stdout, stderr } = await $`cargo run --bin ${filePath.replace('.rs', '')} -e ${env}`;
-      if (stderr) {
-        console.error(c.red(stderr));
-        process.exit(1);
-      }
-
+      const { stdout, stderr } = await $`cargo run --bin day${day}_${part} -- --env ${env}`;
+      console.error(c.red(stderr));
       console.log(stdout);
       break;
   }

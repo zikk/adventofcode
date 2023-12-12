@@ -29,9 +29,9 @@ func main() {
 	flag.Parse()
 
 	if envFlag == "prod" {
-		inputFileName = "./inputs/day1.prod"
+		inputFileName = "./inputs/day1.in"
 	} else {
-		inputFileName = "./inputs/day1_2.test"
+		inputFileName = "./inputs/day1_2.test.in"
 	}
 
 	file, err := os.Open(inputFileName)
