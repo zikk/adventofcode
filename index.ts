@@ -25,12 +25,12 @@ const part = argv.part || argv.p;
 const env = argv.environment || argv.env || argv.e || "prod";
 
 if (!ALLOWED_LANGS.includes(lang)) {
-  console.error(c.red(`Language ${lang} not supported`));
+  console.error(`Language ${lang} not supported`);
   process.exit(1);
 }
 
 if (!ALLOWED_ENVS.includes(env)) {
-  console.error(c.red(`Environment ${env} not supported`));
+  console.error(`Environment ${env} not supported`);
   process.exit(1);
 }
 
@@ -53,13 +53,13 @@ async function runFile() {
       break;
     case 'go': {
         const { stdout, stderr } = await $`go run ${filePath} -e ${env}`;
-        console.error(c.red(stderr));
+        console.error(stderr);
         console.log(stdout);
         break;
       }
     case 'rust':
       const { stdout, stderr } = await $`cargo run --bin day${day}_${part} -- --env ${env}`;
-      console.error(c.red(stderr));
+      console.error(stderr);
       console.log(stdout);
       break;
   }
@@ -73,13 +73,13 @@ file.exists().then(async (exists) => {
     try {
       await runFile()
     } catch (e) {
-      console.error(c.red(`Error running day ${day} part ${part}`));
+      console.error(`Error running day ${day} part ${part}`);
       console.error(e);
     }
 
     console.log(c.cyan("<====================================>"));
   } else {
-    console.error(c.red("⚠️  File not found ⚠️"));
+    console.error("⚠️  File not found ⚠️");
     process.exit(1);
   }
 });
