@@ -1,7 +1,6 @@
 use clap::Parser;
 use std::fs::read_to_string;
 
-/// Search for a pattern in a file and display the lines that contain it.
 #[derive(Parser)]
 struct Args {
     #[arg(short = 'e', long = "env", value_name = "env", default_value = "prod")]
@@ -10,10 +9,10 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    let input_filename = if args.env == "prod" {
-        "./inputs/day1.in"
-    } else {
-        "./inputs/day1_1.test.in"
+    let input_filename = match args.env.as_str() {
+        "test" => "./inputs/day1_2.test.in",
+        "prod" => "./inputs/day1.in",
+        _ => panic!("No env value provided"),
     };
 
     let mut total = 0;
@@ -28,18 +27,20 @@ fn main() {
 
             line.split("").for_each(|c| {
                 let d = match c.parse::<isize>() {
-                    Ok(d) => d,
-                    Err(_) => -1,
+                    Ok(d) => Some(d),
+                    Err(_) => None,
                 };
 
-                if d == -1 {
+                if d.is_none() {
                     return;
                 }
 
+                let value = d.unwrap();
+
                 if first_digit == -1 {
-                    first_digit = d
+                    first_digit = value
                 } else {
-                    last_digit = d
+                    last_digit = value
                 }
             });
 
