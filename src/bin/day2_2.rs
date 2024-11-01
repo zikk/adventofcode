@@ -11,7 +11,7 @@ const INPUT_PATH: &str = if IS_PROD {
 };
 
 fn main() {
-    let mut result = 0;
+    let mut result: usize = 0;
 
     read_to_string(INPUT_PATH)
         .expect("To read input file to string")
@@ -32,7 +32,7 @@ fn main() {
                         let value = split_set
                             .get(0)
                             .expect("Value to be extracted")
-                            .parse::<u16>()
+                            .parse::<usize>()
                             .expect("Value to be parse to integer");
                         let color = *split_set.get(1).expect("Color to be extracted");
 
