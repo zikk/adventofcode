@@ -32,11 +32,7 @@ fn is_level_safe(values: &Vec<usize>) -> bool {
         }
 
         if i > 0 {
-            if is_inc && a > b {
-                is_safe = false;
-            }
-
-            if !is_inc && a < b {
+            if is_inc && a > b || !is_inc && a < b {
                 is_safe = false;
             }
         }

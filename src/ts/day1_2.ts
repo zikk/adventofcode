@@ -1,6 +1,8 @@
+import path from "node:path";
+
 const IS_PROD = true;
-const TEST_INPUT_PATH = "./inputs/day1.test.in";
-const PROD_INPUT_PATH = "./inputs/day1.prod.in";
+const TEST_INPUT_PATH = path.join(__dirname, "../../inputs/day1.test.in");
+const PROD_INPUT_PATH = path.join(__dirname, "../../inputs/day1.prod.in");
 const INPUT_PATH = IS_PROD ? PROD_INPUT_PATH : TEST_INPUT_PATH;
 
 const file = Bun.file(INPUT_PATH);
@@ -29,4 +31,4 @@ for (let i = 0; i < a.length; i += 1) {
   result += a[i] * repeats;
 }
 
-console.log(result);
+console.log("Result :", result);

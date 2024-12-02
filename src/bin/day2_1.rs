@@ -45,12 +45,8 @@ fn main() {
             }
 
             if i > 0 {
-                if is_inc && a > b {
+                if is_inc && a > b || !is_inc && a < b {
                     is_safe = false
-                }
-
-                if !is_inc && a < b {
-                    is_safe = false;
                 }
             }
         }
