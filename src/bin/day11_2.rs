@@ -1,21 +1,26 @@
-use std::fs::read_to_string;
+use std::{collections::HashMap, fs::read_to_string};
+const INPUT_PATH: &str = "./inputs/day11.in";
 
 fn main() {
-    let mut input = read_to_string("./inputs/day11.in")
+    let mut stones: HashMap<usize, usize> = HashMap::new();
+
+    read_to_string(INPUT_PATH)
         .unwrap()
         .trim()
         .split(" ")
-        .map(|v| v.to_string().parse::<usize>().unwrap())
-        .collect::<Vec<_>>();
+        .for_each(|v| {
+            let value = v.to_string().parse::<usize>().unwrap();
+            *stones.entry(value).or_insert(0) += 1;
+        });
 
     for _ in 0..75 {
-        let mut intermedia_result: Vec<usize> = vec![];
+        let mut new_stones: HashMap<usize, usize> = HashMap::new();
 
-        input.iter().for_each(|v| {
+        stones.iter().for_each(|(v, count)| {
             let value_as_chars = v.to_string().chars().collect::<Vec<_>>();
 
             if *v == 0 {
-                intermedia_result.push(1);
+                *new_stones.entry(1).or_insert(0) += count;
             } else if value_as_chars.len() % 2 == 0 {
                 let (start, end) = value_as_chars.split_at(value_as_chars.len() / 2);
                 let start_i = start
@@ -33,15 +38,18 @@ fn main() {
                     .parse::<usize>()
                     .unwrap();
 
-                intermedia_result.push(start_i);
-                intermedia_result.push(end_i);
+                *new_stones.entry(start_i).or_insert(0) += count;
+                *new_stones.entry(end_i).or_insert(0) += count;
             } else {
-                intermedia_result.push(v * 2024);
+                *new_stones.entry(v * 2024).or_insert(0) += count;
             }
         });
 
-        input = intermedia_result;
+        stones = new_stones.clone();
     }
 
-    println!("Result : {}", input.len());
+    println!(
+        "Result : {}",
+        stones.values().map(|v| *v).reduce(|a, b| a + b).unwrap(),
+    );
 }
